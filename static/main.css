@@ -91,7 +91,21 @@
   overflow: hidden;
 }
 
+.portfolio-img{
+  width: 100%;
+  max-height: 350px;
+  max-width: 350px;
+  min-height: 350px;
+}
+
 #btn-center{
   margin:0 auto;
   display: block;
+}
+
+#edit-description{
+  min-height: 12rem;
+}
+.textarea-portfolio{
+  min-height: 12rem;
 }
