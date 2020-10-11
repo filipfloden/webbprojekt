@@ -1,6 +1,6 @@
 <section class="page-section">
     <div class="container">
-        <form id="create-project" class="m-3" method="post" action="/create-project">
+        <form id="create-project" class="m-3" method="post" enctype="multipart/form-data" action="/create-project">
             <div class="form-group">
                 <label for="project-title">Project Title</label>
                 <input type="text" class="form-control" id="project-title" name="title">
@@ -13,7 +13,7 @@
                 <label for="project-image">Project Image</label>
                 <input type="file" class="form-control p-1" name="image">
             </div>
-            <button class="btn btn-secondary">Cancel</button>
+            <button class="btn btn-secondary" type="button" onclick="location.href='/portfolioo'">Cancel</button>
             <button class="btn btn-primary" type="submit">Add project</button>
         </form>
     </div>

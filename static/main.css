@@ -82,7 +82,7 @@
   padding: 6rem 0;
 }
 
- .portfolio-item {
+.portfolio-item {
   cursor: pointer;
   position: relative;
   display: block;
@@ -93,5 +93,5 @@
 
 #btn-center{
   margin:0 auto;
-  display:block;
+  display: block;
 }

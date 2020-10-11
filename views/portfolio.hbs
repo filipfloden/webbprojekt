@@ -1,11 +1,9 @@
 <section class="page-section portfolio" id="portfolio">
-    <div class="container ">
+    <div class="container text-white">
         <!-- Portfolio Section Heading-->
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Portfolio</h2>
-        <div class="mx-auto justify-content-center" style="width: 100%;">
-            <button id="btn-center" type="button" class="btn btn-primary mt-3"
+        <button id="btn-center" type="button" class="btn btn-primary mt-3"
                 onclick="location.href = '/create-project'">Add project +</button>
-        </div>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
@@ -17,7 +15,7 @@
                 {{#each projects}}
                     <div class="col-md-6 col-lg-4 mb-5">
                         <div class="shadow portfolio-item bg-primary text-center mx-auto" data-toggle="modal"
-                            data-target="#exampleModal">
+                            data-target="#exampleModal{{id}}">
                             <img class="img-fluid portfolio-img" src="{{image}}" alt="{{image}}">
                             <h1>{{title}}</h1>
                         </div>
@@ -30,35 +28,38 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{#each projects}}
+    <div class="modal fade" id="exampleModal{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    {{description}}
                 </div>
-                <form id="edit" class="m-3">
+                <form id="edit{{id}}" action="/portfolioo" method="post" class="m-3">
+                <input type="hidden" name="id" value="{{id}}">
                     <div class="form-group">
                         <label for="edit-title">Title</label>
-                        <input type="text" class="form-control" id="edit-title">
+                        <input type="text" class="form-control" id="edit-title" name="title">
                     </div>
                     <div class="form-group">
                         <label for="edit-description">Description</label>
-                        <input type="text" class="form-control" id="edit-description">
+                        <input type="text" class="form-control" id="edit-description" name="description">
                     </div>
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Edit</button>
-                    <button id="save-btn" type="button" class="btn btn-primary">Save</button>
+                    <button id="save-btn" name="btnID" value="save" type="submit" class="btn btn-primary edit-button" form="edit{{id}}">Save</button>
+                    <button type="submit" name="btnID" value="delete" class="btn btn-danger" form="edit{{id}}">Delete</button>
                 </div>
             </div>
         </div>
     </div>
+    {{/each}}
 
 </section>
