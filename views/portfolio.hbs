@@ -1,0 +1,64 @@
+<section class="page-section portfolio" id="portfolio">
+    <div class="container ">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Portfolio</h2>
+        <div class="mx-auto justify-content-center" style="width: 100%;">
+            <button id="btn-center" type="button" class="btn btn-primary mt-3"
+                onclick="location.href = '/create-project'">Add project +</button>
+        </div>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <div class="row">
+            {{#if projects.length}}
+                {{#each projects}}
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <div class="shadow portfolio-item bg-primary text-center mx-auto" data-toggle="modal"
+                            data-target="#exampleModal">
+                            <img class="img-fluid portfolio-img" src="{{image}}" alt="{{image}}">
+                            <h1>{{title}}</h1>
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <p>hello</p>
+            {{/if}}
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <form id="edit" class="m-3">
+                    <div class="form-group">
+                        <label for="edit-title">Title</label>
+                        <input type="text" class="form-control" id="edit-title">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-description">Description</label>
+                        <input type="text" class="form-control" id="edit-description">
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Edit</button>
+                    <button id="save-btn" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
