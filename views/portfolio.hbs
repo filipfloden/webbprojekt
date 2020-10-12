@@ -22,44 +22,66 @@
                     </div>
                 {{/each}}
             {{else}}
-                <p>hello</p>
+                <p>No projects</p>
             {{/if}}
         </div>
     </div>
 
     <!-- Modal -->
-    {{#each projects}}
-    <div class="modal fade" id="exampleModal{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{description}}
-                </div>
-                <form id="edit{{id}}" action="/portfolioo" method="post" class="m-3">
-                <input type="hidden" name="id" value="{{id}}">
-                    <div class="form-group">
-                        <label for="edit-title">Title</label>
-                        <input type="text" class="form-control" id="edit-title" name="title" value="{{title}}">
+    {{#if isLoggedIn}}
+        {{#each projects}}
+        <div class="modal fade" id="exampleModal{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="edit-description">Description</label>
-                        <textarea type="text" class="form-control textarea-portfolio" id="edit-description" name="description">{{description}}</textarea>
+                    <form id="edit{{id}}" action="/portfolioo" method="post" class="m-3">
+                    <input type="hidden" name="id" value="{{id}}">
+                        <div class="form-group">
+                            <label for="edit-title">Title</label>
+                            <input type="text" class="form-control" id="edit-title" name="title" value="{{title}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-description">Description</label>
+                            <textarea type="text" class="form-control textarea-portfolio" id="edit-description" name="description" style="resize: none;">{{description}}</textarea>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="save-btn" name="btnID" value="save" type="submit" class="btn btn-primary edit-button" form="edit{{id}}">Save</button>
+                        <button type="submit" name="btnID" value="delete" class="btn btn-danger" form="edit{{id}}">Delete</button>
                     </div>
-                </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="save-btn" name="btnID" value="save" type="submit" class="btn btn-primary edit-button" form="edit{{id}}">Save</button>
-                    <button type="submit" name="btnID" value="delete" class="btn btn-danger" form="edit{{id}}">Delete</button>
                 </div>
             </div>
         </div>
-    </div>
-    {{/each}}
+        {{/each}}
+    {{else}}
+
+    {{#each projects}}
+        <div class="modal fade" id="exampleModal{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{description}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    {{/if}}
+
 
 </section>

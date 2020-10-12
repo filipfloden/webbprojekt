@@ -5,6 +5,7 @@ const multer  = require('multer')
 const path = require('path')
 //var upload = multer({ dest: 'static/img/' })
 const bodyParser = require('body-parser')
+const expressSession = require('express-session')
 
 const storage = multer.diskStorage({
     destination: './img/portfolio/',
@@ -28,24 +29,47 @@ db.run(`
         image TEXT
     )
 `)
+db.run(`
+    CREATE TABLE IF NOT EXISTS question(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        question TEXT,
+        answer TEXT
+    )
+`)
 
 
 const app = express()
+
+app.use(express.static('static'))
+
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: false
+  }));
+
+app.use(expressSession({
+    secret: "aswdnawrmawrtam",
+    saveUninitialized: false,
+    resave: false
+
+}))
+
+app.use(function(req, res, next){
+    const isLoggedIn = req.session.isLoggedIn
+
+    res.locals.isLoggedIn = isLoggedIn
+
+    next()
+})
 
 app.engine('.hbs', expressHandelbars({
     defaultLayout: 'main.hbs'
 }))
 
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: false
-}));
+const adminUser = "admin"
+const adminPass = "admin"
 
 app.use(express.static('img'))
 app.use(express.static('img/portfolio'))
-
-app.use(express.static('static'))
-app.get('/main.css')
-app.get('/bootstrap.css')
 
 app.get('/', function(req, res){
     res.render('start.hbs')
@@ -80,7 +104,7 @@ app.post('/portfolioo', function(req, res){
     const id = req.body.id
     var query;
     var values;
-    
+
     if (req.body.btnID == "save") {
         query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?") 
         values = [title, description, id]
@@ -103,6 +127,7 @@ app.post('/portfolioo', function(req, res){
     }
 })
 
+/* Eventuellt ta bort - Måste kolla */
 app.post('/delete', function(req, res){
     const id = req.body.id
     const query = ("DELETE FROM portfolio WHERE id=?")
@@ -156,7 +181,169 @@ app.get('/contact', function(req, res){
 })
 
 app.get('/faq', function(req, res){
-    res.render('faq.hbs')
+    const query = ("SELECT * FROM question")
+
+    db.all(query, function(error, questions) {
+        if (error) {
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+        }
+        else{
+            questions.reverse()
+            const model = {
+                dbError: false,
+                questions
+            }
+            res.render('faq.hbs', model)
+        }
+    })
+})
+
+app.post('/faq', function(req, res){
+    const id = req.body.id
+    const query = ("DELETE FROM question WHERE id=?")
+    const values = [id]
+
+    db.run(query, values, function(error){
+        if (error) {
+            console.log(error)
+        }
+        else{
+            res.redirect('/faq')
+        }
+    })
+})
+
+app.get('/ask-question', function(req, res){
+    res.render('ask-question.hbs')
+})
+
+app.post('/ask-question', function(req, res){
+
+    upload(req, res, (error) =>{
+        if (error) {
+            console.log(error)
+        }
+        else{
+            const question = req.body.title    
+
+            const query = ("INSERT INTO question (question) VALUES (?)")
+            const values = [question]
+
+            db.run(query, values, function(error){
+                if (error) {
+                    console.log(error)
+                }
+                else{
+                    res.redirect('/faq')
+                }
+            })
+        }
+    })
+})
+
+app.get('/answer-question', function(req, res){
+    const query = ("SELECT * FROM question")
+
+    db.all(query, function(error, questions) {
+        if (error) {
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+        }
+        else{
+            const model = {
+                dbError: false,
+                questions
+            }
+            res.render('answer-question.hbs', model)
+        }
+    })
+})
+
+app.post('/answer-question', function(req, res){
+
+    const answer = req.body.answer
+    const id = req.body.id
+
+
+    const query = ("UPDATE question SET answer = ? WHERE id = ?")
+    const values = [answer, id]
+
+    db.run(query, values, function(error){
+        if (error) {
+            console.log(error)
+        }
+        else{
+            res.redirect('/faq')
+        }
+    })
+})
+
+app.get('/edit-question', function(req, res){
+    const query = ("SELECT * FROM question")
+
+    db.all(query, function(error, questions) {
+        if (error) {
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+        }
+        else{
+            const model = {
+                dbError: false,
+                questions
+            }
+            res.render('edit-question.hbs', model)
+        }
+    })
+})
+
+app.post('/edit-question', function(req, res){
+
+    const answer = req.body.answer
+    const id = req.body.id
+
+
+    const query = ("UPDATE question SET answer = ? WHERE id = ?")
+    const values = [answer, id]
+
+    db.run(query, values, function(error){
+        if (error) {
+            console.log(error)
+        }
+        else{
+            res.redirect('/faq')
+        }
+    })
+})
+
+
+app.get('/login', function(req, res){
+    res.render('login.hbs')
+})
+
+app.post('/login', function(req, res){
+    const inputUser = req.body.username
+    const inputPass = req.body.password
+
+    if(adminUser == inputUser && adminPass == inputPass){
+        //login user
+        req.session.isLoggedIn = true
+        res.redirect("/")
+    }else{
+        res.redirect("/about")
+           // todo display error message
+    }
+})
+
+app.post("/logout", function(request,response){
+    request.session.isLoggedIn = false
+    response.redirect("/")
 })
 
 app.listen(8080)

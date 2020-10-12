@@ -1,0 +1,64 @@
+<section class="page-section">
+
+    {{#if isLoggedIn}}
+        <div class="container text-white">
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">FAQ</h2>
+            <button id="btn-center" type="button" class="btn btn-primary mt-3 mb-3"
+                    onclick="location.href = '/answer-question'">Answer questions!</button>
+            <button id="btn-center" class="btn btn-secondary" type="button" onclick="location.href='/edit-question'">Edit questions</button>
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-6 mb-5">
+                    <div id="faq-container" class="shadow faq-window bg-primary text-center mx-auto p-4">
+                        {{#if questions.length}}
+                            {{#each questions}}
+                                {{#if answer}}
+                                    <form action="/faq" method="post">
+                                        <div class="shadow faq-window bg-secondary p-2 mb-3">
+                                            <h4 class="pb-2" style="border-bottom: 1px solid white;">{{question}}</h4>
+                                            <p>{{answer}}</p>
+                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                            <input type="hidden" name="id" value="{{id}}">
+                                        </div>
+                                    </form>
+                                {{/if}}
+                            {{/each}}
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        <div class="container text-white">
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">FAQ</h2>
+            <button id="btn-center" type="button" class="btn btn-primary mt-3"
+                    onclick="location.href = '/ask-question'">Ask a question!</button>
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-6 mb-5">
+                    <div class="shadow faq-window bg-primary text-center mx-auto p-4">
+                        {{#if questions.length}}
+                            {{#each questions}}
+                                {{#if answer}}
+                                    <div class="shadow faq-window bg-secondary p-2 mb-3">
+                                        <h4 class="pb-2" style="border-bottom: 1px solid white;">{{question}}</h4>
+                                        <p>{{answer}}</p>
+                                    </div>
+                                {{/if}}
+                            {{/each}}
+                        {{/if}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {{/if}}
+</section>
