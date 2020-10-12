@@ -141,9 +141,21 @@
   position: absolute;
 }
 
-#no-js-menu:hover + #navbarResponsive{
-  display:block;
+#search-field{
+  min-width: 322px;
 }
-#navbarRespnsive:hover{
-  display: block;
+
+@media screen and (max-width: 992px) {
+  .dropdown-test:hover > #navbarResponsive{
+    display:block;
+  }
+  #navbarResponsive{
+    margin: -1rem;
+  }
+  #navbar-regular{
+    display: none !important;
+  }
+}
+@media screen and (min-width: 992px) {
+
 }

@@ -32,38 +32,72 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="/">Website</a>
-            <button
-                class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" id="no-js-menu"
-                type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                            href="/portfolioo">Portfolio</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                            href="/about">About</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                            href="/contact">Contact</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                            href="/faq">FAQ</a></li>
-                </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 mr-4 text-white bg-primary" type="submit">Search</button>
-            </form>
-            {{#if isLoggedIn}}
-                <form class="form-inline" action="/logout" method="post">
-                    <button class="btn btn-primary" type="submit">Logout</button>
-                </form>
-            {{else}}
-                <form class="form-inline" action="/login">
-                    <button class="btn btn-primary" type="submit">Login</button>
-                </form>
-            {{/if}}
+            <a id="navbar-test" class="navbar-brand js-scroll-trigger" href="/">Website</a>
+            <div class="dropdown-test">
+                <button
+                    class="dropdown-toggle navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    type="button">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div id="navbarResponsive" class="dropdown-menu dropdown-menu-right bg-secondary p-4">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="/portfolioo">Portfolio</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="/about">About</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="/contact">Contact</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="/faq">FAQ</a></li>
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 text-white bg-primary" type="submit">Search</button>
+                            </form>
+                        </li>
+                        <li class="nav-item mx-0 mx-lg-1">
+                            {{#if isLoggedIn}}
+                                <form class="form-inline my-lg-0" action="/logout" method="post">
+                                    <button class="btn btn-primary my-2" type="submit">Logout</button>
+                                </form>
+                            {{else}}
+                                <form class="form-inline my-lg-0" action="/login">
+                                    <button class="btn btn-primary my-2" type="submit">Login</button>
+                                </form>
+                            {{/if}}
+                        </li>
+                    </ul>
+                </div>
+                <div id="navbar-regular" class="bg-secondary">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="/portfolioo">Portfolio</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="/about">About</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="/contact">Contact</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="/faq">FAQ</a></li>
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <form id="search-field" class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class=" btn btn-outline-success my-2 text-white bg-primary" type="submit">Search</button>
+                            </form>
+                        </li>
+                        <li class="nav-item mx-0 mx-lg-1">
+                            {{#if isLoggedIn}}
+                                <form class="form-inline my-lg-0" action="/logout" method="post">
+                                    <button class="btn btn-primary my-2" type="submit">Logout</button>
+                                </form>
+                            {{else}}
+                                <form class="form-inline my-lg-0" action="/login">
+                                    <button class="btn btn-primary my-2" type="submit">Login</button>
+                                </form>
+                            {{/if}}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
