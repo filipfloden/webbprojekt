@@ -377,7 +377,7 @@ app.post('/edit-project', function(req, res){
         const description = req.body.description
         const id = req.body.id
 
-        var query;
+        var query
         var values
 
         if (req.body.btnID == "save") {
