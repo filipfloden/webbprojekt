@@ -392,4 +392,8 @@ app.post("/logout", function(req,res){
     res.redirect("/")
 })
 
+app.get('*', function(req, res){
+    res.render('invalid-directory.hbs')
+})
+
 app.listen(3000)
