@@ -157,17 +157,20 @@ app.post('/create-project', function(req, res){
             const title = req.body.title    
             const description = req.body.description
             const image = req.file.filename
-            const query = ("INSERT INTO portfolio (title, description, image) VALUES (?, ?, ?)")
-            const values = [title, description, image]
+            if(title == null || description == null || image == null){res.redirect}
+            else{
+                const query = ("INSERT INTO portfolio (title, description, image) VALUES (?, ?, ?)")
+                const values = [title, description, image]
 
-            db.run(query, values, function(error){
-                if (error) {
-                    console.log(error)
-                }
-                else{
-                    res.redirect('/portfolioo')
-                }
-            })
+                db.run(query, values, function(error){
+                    if (error) {
+                        console.log(error)
+                    }
+                    else{
+                        res.redirect('/portfolioo')
+                    }
+                })
+            }
         }
     })
 })
