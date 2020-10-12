@@ -3,9 +3,12 @@
     {{#if isLoggedIn}}
         <div class="container text-white">
             <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">FAQ</h2>
-            <button id="btn-center" type="button" class="btn btn-primary mt-3 mb-3"
-                    onclick="location.href = '/answer-question'">Answer questions!</button>
-            <button id="btn-center" class="btn btn-secondary" type="button" onclick="location.href='/edit-question'">Edit questions</button>
+            <form action="/answer-question">
+                <button id="btn-center" type="submit" class="btn btn-primary mt-3 mb-3">Answer questions!</button>
+            </form>
+            <form action="/edit-question">
+                <button id="btn-center" class="btn btn-secondary" type="submit">Edit questions</button>
+            </form>
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
@@ -35,8 +38,9 @@
     {{else}}
         <div class="container text-white">
             <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">FAQ</h2>
-            <button id="btn-center" type="button" class="btn btn-primary mt-3"
-                    onclick="location.href = '/ask-question'">Ask a question!</button>
+            <form action="/ask-question">
+                <button id="btn-center" type="submit" class="btn btn-primary mt-3">Ask a question!</button>
+            </form>
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>

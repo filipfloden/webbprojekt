@@ -128,3 +128,15 @@
   border-radius: 0.5rem;
   overflow: hidden;
 }
+
+.no-js-portfolio:hover .portfolio-img{
+  opacity: 0;
+}
+.no-js-portfolio:hover #no-js-desc{
+  display: block;
+}
+
+#no-js-desc{
+  display: none;
+  position: absolute;
+}

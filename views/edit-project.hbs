@@ -1,0 +1,32 @@
+<section class="page-section">
+    <div class="container">
+            <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        {{#if isLoggedIn}}
+            {{#if project.length}}
+                    {{#each project}}
+                        <form id="edit-project" class="m-3" method="post" action="/edit-project">
+                            <div class="form-group">
+                                <label for="project-title"><h4>{{title}}</h4></label>
+                                <input type="text" class="form-control" name="title" value="{{title}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="project-description">Edit Answer</label>
+                                <textarea type="text" class="form-control textarea-portfolio" id="project-description" name="description" style="resize: none;">{{description}}</textarea>
+                            </div>
+                            <button class="btn btn-secondary" type="button" onclick="location.href='/portfolioo'">Cancel</button>
+                            <button class="btn btn-primary" type="submit">Save Changes</button>
+                            <input type="hidden" name="id" value="{{id}}">
+                        </form>
+                {{/each}}
+            {{/if}}
+        {{else}}
+        <div class="container text-center">
+            <h3>You need to be logged in to see this page</h3>
+        </div>
+        {{/if}}
+    </div>
+</section>

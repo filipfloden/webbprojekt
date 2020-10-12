@@ -322,6 +322,45 @@ app.post('/edit-question', function(req, res){
     })
 })
 
+app.get('/edit-project', function(req, res){
+    const query = ("SELECT * FROM portfolio")
+
+    db.all(query, function(error, project) {
+        if (error) {
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+        }
+        else{
+            const model = {
+                dbError: false,
+                project
+            }
+            res.render('edit-project.hbs', model)
+        }
+    })
+})
+
+app.post('/edit-project', function(req, res){
+
+    const title = req.body.title
+    const description = req.body.description
+    const id = req.body.id
+
+
+    const query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?")
+    const values = [title, description, id]
+
+    db.run(query, values, function(error){
+        if (error) {
+            console.log(error)
+        }
+        else{
+            res.redirect('/portfolioo')
+        }
+    })
+})
 
 app.get('/login', function(req, res){
     res.render('login.hbs')
