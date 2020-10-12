@@ -140,10 +140,3 @@
   display: none;
   position: absolute;
 }
-
-#no-js-menu:hover + #navbarResponsive{
-  display:block;
-}
-#navbarRespnsive:hover{
-  display: block;
-}
