@@ -178,6 +178,7 @@ app.post('/create-project', function(req, res){
             const title = req.body.title    
             const description = req.body.description
             const image = req.file.filename
+
             if(title == null || description == null || image == null){res.redirect('/create-project')}
             else{
                 const query = ("INSERT INTO portfolio (title, description, image) VALUES (?, ?, ?)")
@@ -376,18 +377,28 @@ app.post('/edit-project', function(req, res){
         const description = req.body.description
         const id = req.body.id
 
+        var query;
+        var values
 
-        const query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?")
-        const values = [title, description, id]
-
-        db.run(query, values, function(error){
-            if (error) {
-                console.log(error)
-            }
-            else{
-                res.redirect('/portfolioo')
-            }
-        })
+        if (req.body.btnID == "save") {
+            query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?")
+            values = [title, description, id]
+        }
+        else if (req.body.btnID == "delete"){
+            query = ("DELETE FROM portfolio WHERE id=?")
+            values = [id]
+        }
+        
+        if (query != null) {
+            db.run(query, values, function(error){
+                if (error) {
+                    console.log(error)
+                }
+                else{
+                    res.redirect('/portfolioo')
+                }
+            })
+        }
 })
 
 app.get('/login', function(req, res){
@@ -395,6 +406,7 @@ app.get('/login', function(req, res){
 })
 
 app.post('/login', function(req, res){
+    var failed = false
     const inputUser = req.body.username
     const inputPass = req.body.password
 
@@ -403,7 +415,10 @@ app.post('/login', function(req, res){
         req.session.isLoggedIn = true
         res.redirect("/")
     }else{
-        res.redirect("/about")
+        const model = {
+            dbError: true
+        }
+        res.render("login.hbs", model)
            // todo display error message
     }
 })
