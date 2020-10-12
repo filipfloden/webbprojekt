@@ -54,9 +54,9 @@ app.use(expressSession({
 }))
 
 app.use(function(req, res, next){
-    const isLoggedIn = req.session.isLoggedIn
+    //const isLoggedIn = req.session.isLoggedIn
 
-    res.locals.isLoggedIn = isLoggedIn
+    res.locals.isLoggedIn = req.session.isLoggedIn
 
     next()
 })
@@ -386,9 +386,9 @@ app.post('/login', function(req, res){
     }
 })
 
-app.post("/logout", function(request,response){
-    request.session.isLoggedIn = false
-    response.redirect("/")
+app.post("/logout", function(req,res){
+    req.session.isLoggedIn = false
+    res.redirect("/")
 })
 
 app.listen(3000)
