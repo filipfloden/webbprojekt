@@ -15,8 +15,26 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({
-    storage: storage
+    storage: storage,
+    limits:{fileSize: 1000000},
+    fileFilter: function(req, file, cb){
+        checkFileType(file, cb)
+    }
 }).single('image')
+
+function checkFileType(file, cb) {
+    const filetypes = /png|jpg|jpeg|gif/
+
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
+
+    const mimetype = filetypes.test(file.mimetype)
+
+    if (extname && mimetype) {
+        return cb(null, true)
+    }else{
+        cb('Error: Images only')
+    }
+}
 
 const db = new sqlite3.Database("my-database.db")
 
@@ -151,6 +169,9 @@ app.post('/create-project', function(req, res){
 
     upload(req, res, (error) =>{
         if (error) {
+            res.render('create-project.hbs',{
+                msg: error
+            })
             console.log(error)
         }
         else{
