@@ -139,6 +139,13 @@
 }
 .no-js-portfolio:hover #no-js-desc{
   display: block;
+  background-color: #1abc9c;
+  resize: none;
+  color: white;
+  border: none;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 #no-js-desc{

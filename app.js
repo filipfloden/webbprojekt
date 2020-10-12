@@ -351,7 +351,6 @@ app.get('/edit-project', function(req, res){
 
 app.post('/edit-project', function(req, res){
 
-    if (isLoggedIn) {
         const title = req.body.title
         const description = req.body.description
         const id = req.body.id
@@ -368,7 +367,6 @@ app.post('/edit-project', function(req, res){
                 res.redirect('/portfolioo')
             }
         })
-    }
 })
 
 app.get('/login', function(req, res){
