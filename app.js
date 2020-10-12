@@ -305,7 +305,7 @@ app.get('/edit-question', function(req, res){
 
 app.post('/edit-question', function(req, res){
 
-    if (isLoggedIn) {
+    if (req.session.isLoggedIn) {
         const answer = req.body.answer
         const id = req.body.id
 
