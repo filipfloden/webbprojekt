@@ -157,7 +157,7 @@ app.post('/create-project', function(req, res){
             const title = req.body.title    
             const description = req.body.description
             const image = req.file.filename
-            if(title == null || description == null || image == null){res.redirect}
+            if(title == null || description == null || image == null){res.redirect('/create-project')}
             else{
                 const query = ("INSERT INTO portfolio (title, description, image) VALUES (?, ?, ?)")
                 const values = [title, description, image]
