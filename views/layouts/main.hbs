@@ -52,16 +52,16 @@
                             href="/faq">FAQ</a></li>
                 </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mx-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2  text-white bg-primary" type="submit">Search</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 mr-4 text-white bg-primary" type="submit">Search</button>
             </form>
             {{#if isLoggedIn}}
                 <form class="form-inline" action="/logout" method="post">
-                    <button class="btn btn-primary ml-4" type="submit">Logout</button>
+                    <button class="btn btn-primary" type="submit">Logout</button>
                 </form>
             {{else}}
                 <form class="form-inline" action="/login">
-                    <button class="btn btn-primary ml-4" type="submit">Login</button>
+                    <button class="btn btn-primary" type="submit">Login</button>
                 </form>
             {{/if}}
             </div>
