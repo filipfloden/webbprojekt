@@ -305,21 +305,23 @@ app.get('/edit-question', function(req, res){
 
 app.post('/edit-question', function(req, res){
 
-    const answer = req.body.answer
-    const id = req.body.id
+    if (isLoggedIn) {
+        const answer = req.body.answer
+        const id = req.body.id
 
 
-    const query = ("UPDATE question SET answer = ? WHERE id = ?")
-    const values = [answer, id]
+        const query = ("UPDATE question SET answer = ? WHERE id = ?")
+        const values = [answer, id]
 
-    db.run(query, values, function(error){
-        if (error) {
-            console.log(error)
-        }
-        else{
-            res.redirect('/faq')
-        }
-    })
+        db.run(query, values, function(error){
+            if (error) {
+                console.log(error)
+            }
+            else{
+                res.redirect('/faq')
+            }
+        })
+    }
 })
 
 app.get('/edit-project', function(req, res){
@@ -344,22 +346,24 @@ app.get('/edit-project', function(req, res){
 
 app.post('/edit-project', function(req, res){
 
-    const title = req.body.title
-    const description = req.body.description
-    const id = req.body.id
+    if (isLoggedIn) {
+        const title = req.body.title
+        const description = req.body.description
+        const id = req.body.id
 
 
-    const query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?")
-    const values = [title, description, id]
+        const query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?")
+        const values = [title, description, id]
 
-    db.run(query, values, function(error){
-        if (error) {
-            console.log(error)
-        }
-        else{
-            res.redirect('/portfolioo')
-        }
-    })
+        db.run(query, values, function(error){
+            if (error) {
+                console.log(error)
+            }
+            else{
+                res.redirect('/portfolioo')
+            }
+        })
+    }
 })
 
 app.get('/login', function(req, res){
