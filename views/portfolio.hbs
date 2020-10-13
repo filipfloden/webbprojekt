@@ -2,11 +2,11 @@
     <div class="container text-white">
         <!-- Portfolio Section Heading-->
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Portfolio</h2>
-        <form action="/create-project">
-            <button id="btn-center" type="submit" class="btn btn-primary mt-3">Add project +</button>
-        </form>
         
         {{#if isLoggedIn}}
+            <form action="/create-project">
+                <button id="btn-center" type="submit" class="btn btn-primary mt-3">Add project +</button>
+            </form>
             <noscript>
                 <form action="/edit-project">
                     <button id="btn-center" type="submit" class="btn btn-secondary mt-3">Edit projects</button>

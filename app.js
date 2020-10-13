@@ -162,39 +162,46 @@ app.post('/delete', function(req, res){
 })
 
 app.get('/create-project', function(req, res){
-    res.render('create-project.hbs')
+    if (req.session.isLoggedIn) {
+        res.render('create-project.hbs')
+    }else if (req.session.isLoggedIn) {
+        res.redirect('/portfolioo')
+    }
 })
 
 app.post('/create-project', function(req, res){
-
-    upload(req, res, (error) =>{
-        if (error) {
-            res.render('create-project.hbs',{
-                msg: error
-            })
-            console.log(error)
-        }
-        else{
-            const title = req.body.title    
-            const description = req.body.description
-            const image = req.file.filename
-
-            if(title == null || description == null || image == null){res.redirect('/create-project')}
-            else{
-                const query = ("INSERT INTO portfolio (title, description, image) VALUES (?, ?, ?)")
-                const values = [title, description, image]
-
-                db.run(query, values, function(error){
-                    if (error) {
-                        console.log(error)
-                    }
-                    else{
-                        res.redirect('/portfolioo')
-                    }
+    if (req.session.isLoggedIn) {
+        upload(req, res, (error) =>{
+            if (error) {
+                res.render('create-project.hbs',{
+                    msg: error
                 })
+                console.log(error)
             }
-        }
-    })
+            else{
+                const title = req.body.title    
+                const description = req.body.description
+                const image = req.file.filename
+
+                if(title == null || description == null || image == null){res.redirect('/create-project')}
+                else{
+                    const query = ("INSERT INTO portfolio (title, description, image) VALUES (?, ?, ?)")
+                    const values = [title, description, image]
+
+                    db.run(query, values, function(error){
+                        if (error) {
+                            console.log(error)
+                        }
+                        else{
+                            res.redirect('/portfolioo')
+                        }
+                    })
+                }
+            }
+        })
+    }else if (!req.session.isLoggedIn) {
+        res.redirect('/portfolioo')
+    }
 })
 
 app.get('/about', function(req, res){
@@ -270,76 +277,38 @@ app.post('/ask-question', function(req, res){
 })
 
 app.get('/answer-question', function(req, res){
-    const query = ("SELECT * FROM question")
+    if (req.session.isLoggedIn) {
+        const query = ("SELECT * FROM question")
 
-    db.all(query, function(error, questions) {
-        if (error) {
-            console.log(error)
-            const model = {
-                dbError: true
+        db.all(query, function(error, questions) {
+            if (error) {
+                console.log(error)
+                const model = {
+                    dbError: true
+                }
             }
-        }
-        else{
-            const model = {
-                dbError: false,
-                questions
+            else{
+                const model = {
+                    dbError: false,
+                    questions
+                }
+                res.render('answer-question.hbs', model)
             }
-            res.render('answer-question.hbs', model)
-        }
-    })
+        })
+    }else if (!req.session.isLoggedIn){
+        res.redirect('/')
+    }
 })
 
 app.post('/answer-question', function(req, res){
 
-    const answer = req.body.answer
-    const id = req.body.id
-
-
-    const query = ("UPDATE question SET answer = ? WHERE id = ?")
-    const values = [answer, id]
-
-    db.run(query, values, function(error){
-        if (error) {
-            console.log(error)
-        }
-        else{
-            res.redirect('/faq')
-        }
-    })
-})
-
-app.get('/edit-question', function(req, res){
-    const query = ("SELECT * FROM question")
-
-    db.all(query, function(error, questions) {
-        if (error) {
-            console.log(error)
-            const model = {
-                dbError: true
-            }
-        }
-        else{
-            const model = {
-                dbError: false,
-                questions
-            }
-            res.render('edit-question.hbs', model)
-        }
-    })
-})
-
-app.post('/edit-question', function(req, res){
-
-    if (!req.session.isLoggedIn) {
-        res.redirect('/')
-    }else{
+    if (req.session.isLoggedIn) {
         const answer = req.body.answer
         const id = req.body.id
-
-
+        
         const query = ("UPDATE question SET answer = ? WHERE id = ?")
         const values = [answer, id]
-
+    
         db.run(query, values, function(error){
             if (error) {
                 console.log(error)
@@ -348,31 +317,82 @@ app.post('/edit-question', function(req, res){
                 res.redirect('/faq')
             }
         })
+    }else if(!req.session.isLoggedIn){
+        res.redirect('/')
+    }
+})
+
+app.get('/edit-question', function(req, res){
+    if (req.session.isLoggedIn) {
+        const query = ("SELECT * FROM question")
+
+        db.all(query, function(error, questions) {
+            if (error) {
+                console.log(error)
+                const model = {
+                    dbError: true
+                }
+            }
+            else{
+                const model = {
+                    dbError: false,
+                    questions
+                }
+                res.render('edit-question.hbs', model)
+            }
+        })
+    }else if(!req.session.isLoggedIn){
+        res.redirect('/')
+    }
+})
+
+app.post('/edit-question', function(req, res){
+    if (req.session.isLoggedIn) {
+        const answer = req.body.answer
+        const id = req.body.id
+        const query = ("UPDATE question SET answer = ? WHERE id = ?")
+        const values = [answer, id]
+        
+        db.run(query, values, function(error){
+            if (error) {
+                console.log(error)
+            }
+            else{
+                res.redirect('/faq')
+            }
+        })
+    }else if(!req.session.isLoggedIn){
+        res.redirect('/')
     }
 })
 
 app.get('/edit-project', function(req, res){
-    const query = ("SELECT * FROM portfolio")
+    if (req.session.isLoggedIn) {
+        const query = ("SELECT * FROM portfolio")
 
-    db.all(query, function(error, project) {
-        if (error) {
-            console.log(error)
-            const model = {
-                dbError: true
+        db.all(query, function(error, project) {
+            if (error) {
+                console.log(error)
+                const model = {
+                    dbError: true
+                }
             }
-        }
-        else{
-            const model = {
-                dbError: false,
-                project
+            else{
+                const model = {
+                    dbError: false,
+                    project
+                }
+                res.render('edit-project.hbs', model)
             }
-            res.render('edit-project.hbs', model)
-        }
-    })
+        })
+    }
+    else if(!req.session.isLoggedIn) {
+        res.redirect('/portfolioo')
+    }
 })
 
 app.post('/edit-project', function(req, res){
-
+    if (req.session.isLoggedIn) {
         const title = req.body.title
         const description = req.body.description
         const id = req.body.id
@@ -399,6 +419,10 @@ app.post('/edit-project', function(req, res){
                 }
             })
         }
+    }
+    else if (!req.session.isLoggedIn) {
+        res.redirect('/')
+    }
 })
 
 app.get('/login', function(req, res){
