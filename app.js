@@ -105,6 +105,7 @@ app.get('/portfolioo', function(req, res){
             }
         }
         else{
+            projects.reverse()
             const model = {
                 dbError: false,
                 projects
