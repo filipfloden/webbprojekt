@@ -5,7 +5,7 @@
         
         {{#if isLoggedIn}}
             <form action="/create-project">
-                <button id="btn-center" type="submit" class="btn btn-primary mt-3">Add project +</button>
+                <button id="btn-center" type="submit" class="btn btn-primary mt-3">Add project +</button> 
             </form>
             <noscript>
                 <form action="/edit-project">
@@ -61,6 +61,7 @@
                             <label for="edit-description">Description</label>
                             <textarea type="text" class="form-control textarea-portfolio" id="edit-description" name="description" style="resize: none;">{{description}}</textarea>
                         </div>
+                        <input type="hidden" name="_csrf" value="{{../csrf}}">
                     </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

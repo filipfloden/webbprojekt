@@ -27,6 +27,7 @@
                                             <button class="btn btn-danger" type="submit">Delete</button>
                                             <input type="hidden" name="id" value="{{id}}">
                                         </div>
+                                        <input type="hidden" name="_csrf" value="{{../csrf}}">
                                     </form>
                                 {{/if}}
                             {{/each}}
@@ -40,6 +41,7 @@
             <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">FAQ</h2>
             <form action="/ask-question">
                 <button id="btn-center" type="submit" class="btn btn-primary mt-3">Ask a question!</button>
+                <input type="hidden" name="_csrf" value="{{csrf}}">
             </form>
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>

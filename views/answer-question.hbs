@@ -22,6 +22,7 @@
                                 <a href="/faq"><button class="btn btn-secondary" type="button">Cancel</button></a>
                                 <button class="btn btn-primary" type="submit">Submit answer</button>
                                 <input type="hidden" name="id" value="{{id}}">
+                                <input type="hidden" name="_csrf" value="{{../csrf}}">
                             </form>
                         {{/if}}
                 {{/each}}

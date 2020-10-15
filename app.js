@@ -6,7 +6,12 @@ const path = require('path')
 //var upload = multer({ dest: 'static/img/' })
 const bodyParser = require('body-parser')
 const expressSession = require('express-session')
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs')
+const csrf = require('csurf')
+const { parse } = require('path')
+
+const csrfProtection = csrf({ cookie: false})
+const parseForm = bodyParser.urlencoded ({extended: false})
 
 const storage = multer.diskStorage({
     destination: './img/portfolio/',
@@ -94,7 +99,7 @@ app.get('/', function(req, res){
     res.render('start.hbs')
 })
 
-app.get('/portfolioo', function(req, res){
+app.get('/portfolioo', csrfProtection, function(req, res){
 
     const query = ("SELECT * FROM portfolio")
 
@@ -109,7 +114,8 @@ app.get('/portfolioo', function(req, res){
             projects.reverse()
             const model = {
                 dbError: false,
-                projects
+                projects,
+                csrf: req.csrfToken()
             }
             //console.log(model)
             res.render('portfolio.hbs', model)
@@ -117,7 +123,7 @@ app.get('/portfolioo', function(req, res){
     })
 })
 
-app.post('/portfolioo', function(req, res){
+app.post('/portfolioo', csrfProtection, parseForm, function(req, res){
 
     const title = req.body.title    
     const description = req.body.description
@@ -149,31 +155,15 @@ app.post('/portfolioo', function(req, res){
     }
 })
 
-/* Eventuellt ta bort - Måste kolla */
-app.post('/delete', function(req, res){
-    const id = req.body.id
-    const query = ("DELETE FROM portfolio WHERE id=?")
-    const values = [id]
-
-    db.run(query, values, function(error){
-        if (error) {
-            console.log(error)
-        }
-        else{
-            res.redirect('/portfolioo')
-        }
-    })
-})
-
-app.get('/create-project', function(req, res){
+app.get('/create-project', csrfProtection, function(req, res){
     if (req.session.isLoggedIn) {
-        res.render('create-project.hbs')
+        res.render('create-project.hbs', { csrf: req.csrfToken()})
     }else if (req.session.isLoggedIn) {
         res.redirect('/portfolioo')
     }
 })
 
-app.post('/create-project', function(req, res){
+app.post('/create-project', csrfProtection, parseForm, function(req, res){
     if (req.session.isLoggedIn) {
         upload(req, res, (error) =>{
             if (error) {
@@ -218,7 +208,7 @@ app.get('/contact', function(req, res){
     res.render('contact.hbs')
 })
 
-app.get('/faq', function(req, res){
+app.get('/faq', csrfProtection, function(req, res){
     const query = ("SELECT * FROM question")
 
     db.all(query, function(error, questions) {
@@ -232,14 +222,15 @@ app.get('/faq', function(req, res){
             questions.reverse()
             const model = {
                 dbError: false,
-                questions
+                questions,
+                csrf: req.csrfToken()
             }
             res.render('faq.hbs', model)
         }
     })
 })
 
-app.post('/faq', function(req, res){
+app.post('/faq', csrfProtection, parseForm, function(req, res){
     const id = req.body.id
     const query = ("DELETE FROM question WHERE id=?")
     const values = [id]
@@ -254,11 +245,11 @@ app.post('/faq', function(req, res){
     })
 })
 
-app.get('/ask-question', function(req, res){
-    res.render('ask-question.hbs')
+app.get('/ask-question', csrfProtection, function(req, res){
+    res.render('ask-question.hbs', { csrf: req.csrfToken()})
 })
 
-app.post('/ask-question', function(req, res){
+app.post('/ask-question', csrfProtection, parseForm, function(req, res){
 
     upload(req, res, (error) =>{
         if (error) {
@@ -286,7 +277,7 @@ app.post('/ask-question', function(req, res){
     })
 })
 
-app.get('/answer-question', function(req, res){
+app.get('/answer-question', csrfProtection, function(req, res){
     if (req.session.isLoggedIn) {
         const query = ("SELECT * FROM question")
 
@@ -300,7 +291,8 @@ app.get('/answer-question', function(req, res){
             else{
                 const model = {
                     dbError: false,
-                    questions
+                    questions,
+                    csrf: req.csrfToken()
                 }
                 res.render('answer-question.hbs', model)
             }
@@ -310,7 +302,7 @@ app.get('/answer-question', function(req, res){
     }
 })
 
-app.post('/answer-question', function(req, res){
+app.post('/answer-question', csrfProtection, parseForm, function(req, res){
 
     if (req.session.isLoggedIn) {
         const answer = req.body.answer
@@ -319,7 +311,7 @@ app.post('/answer-question', function(req, res){
         const query = ("UPDATE question SET answer = ? WHERE id = ?")
         const values = [answer, id]
     
-        if (answer >= 5) {
+        if (answer.length >= 5) {
             db.run(query, values, function(error){
                 if (error) {
                     console.log(error)
@@ -329,12 +321,15 @@ app.post('/answer-question', function(req, res){
                 }
             })
         }
+        else{
+            res.redirect('/')
+        }
     }else if(!req.session.isLoggedIn){
         res.redirect('/')
     }
 })
 
-app.get('/edit-question', function(req, res){
+app.get('/edit-question', csrfProtection, function(req, res){
     if (req.session.isLoggedIn) {
         const query = ("SELECT * FROM question")
 
@@ -348,7 +343,8 @@ app.get('/edit-question', function(req, res){
             else{
                 const model = {
                     dbError: false,
-                    questions
+                    questions,
+                    csrf: req.csrfToken()
                 }
                 res.render('edit-question.hbs', model)
             }
@@ -358,14 +354,14 @@ app.get('/edit-question', function(req, res){
     }
 })
 
-app.post('/edit-question', function(req, res){
+app.post('/edit-question', csrfProtection, parseForm, function(req, res){
     if (req.session.isLoggedIn) {
         const answer = req.body.answer
         const id = req.body.id
         const query = ("UPDATE question SET answer = ? WHERE id = ?")
         const values = [answer, id]
 
-        if (answer >= 5) {
+        if (answer.length >= 5) {
             db.run(query, values, function(error){
                 if (error) {
                     console.log(error)
@@ -375,12 +371,15 @@ app.post('/edit-question', function(req, res){
                 }
             })
         }
+        else{
+            res.redirect('/')
+        }
     }else if(!req.session.isLoggedIn){
         res.redirect('/')
     }
 })
 
-app.get('/edit-project', function(req, res){
+app.get('/edit-project', csrfProtection, function(req, res){
     if (req.session.isLoggedIn) {
         const query = ("SELECT * FROM portfolio")
 
@@ -394,7 +393,8 @@ app.get('/edit-project', function(req, res){
             else{
                 const model = {
                     dbError: false,
-                    project
+                    project,
+                    csrf: req.csrfToken()
                 }
                 res.render('edit-project.hbs', model)
             }
@@ -405,7 +405,7 @@ app.get('/edit-project', function(req, res){
     }
 })
 
-app.post('/edit-project', function(req, res){
+app.post('/edit-project', csrfProtection, parseForm, function(req, res){
     if (req.session.isLoggedIn) {
         const title = req.body.title
         const description = req.body.description
@@ -415,7 +415,7 @@ app.post('/edit-project', function(req, res){
         var values
 
         if (req.body.btnID == "save") {
-            if (title >= 2 || description >= 10) {
+            if (title.length >= 2 || description.length >= 10) {
                 query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?")
                 values = [title, description, id]
             }
@@ -441,11 +441,11 @@ app.post('/edit-project', function(req, res){
     }
 })
 
-app.get('/login', function(req, res){
-    res.render('login.hbs')
+app.get('/login', csrfProtection, function(req, res){
+    res.render('login.hbs', { csrf: req.csrfToken()})
 })
 
-app.post('/login', function(req, res){
+app.post('/login', csrfProtection, parseForm, function(req, res){
     var failed = false
     const inputUser = req.body.username
     const inputPass = req.body.password

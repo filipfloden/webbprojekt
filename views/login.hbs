@@ -21,6 +21,7 @@
             {{#if dbError}}
                 <h4>Wrong username or password</h4>
             {{/if}}
+            <input type="hidden" name="_csrf" value="{{csrf}}">
         </form>
 
     </div>

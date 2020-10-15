@@ -21,6 +21,7 @@
                             <button class="btn btn-primary" name="btnID" value="save" type="submit">Save Changes</button>
                             <button class="btn btn-danger" name="btnID" value="delete" type="submit">Delete</button>
                             <input type="hidden" name="id" value="{{id}}">
+                            <input type="hidden" name="_csrf" value="{{../csrf}}">
                         </form>
                 {{/each}}
             {{/if}}
