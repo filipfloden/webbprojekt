@@ -95,8 +95,8 @@ const adminPass = "$2b$10$Vbz5tNWmTOxa7At7wtXd3uA/npj1oG2rce6L9Ekg4lzucIrDLNwta"
 app.use(express.static('img'))
 app.use(express.static('img/portfolio'))
 
-app.get('/', function(req, res){
-    res.render('start.hbs')
+app.get('/', csrfProtection, function(req, res){
+    res.render('start.hbs', { csrf: req.csrfToken()})
 })
 
 app.get('/portfolioo', csrfProtection, function(req, res){
@@ -200,12 +200,12 @@ app.post('/create-project', csrfProtection, parseForm, function(req, res){
     }
 })
 
-app.get('/about', function(req, res){
-    res.render('about.hbs')
+app.get('/about', csrfProtection, function(req, res){
+    res.render('about.hbs', { csrf: req.csrfToken()})
 })
 
-app.get('/contact', function(req, res){
-    res.render('contact.hbs')
+app.get('/contact', csrfProtection, function(req, res){
+    res.render('contact.hbs', { csrf: req.csrfToken()})
 })
 
 app.get('/faq', csrfProtection, function(req, res){
@@ -466,13 +466,13 @@ app.post('/login', csrfProtection, parseForm, function(req, res){
     }
 })
 
-app.post("/logout", function(req,res){
+app.post("/logout", csrfProtection, parseForm, function(req,res){
     req.session.isLoggedIn = false
     res.redirect("/")
 })
 
-app.get('*', function(req, res){
-    res.render('invalid-directory.hbs')
+app.get('*', csrfProtection, function(req, res){
+    res.render('invalid-directory.hbs', { csrf: req.csrfToken()})
 })
 
 app.listen(3000)

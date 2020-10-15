@@ -1,6 +1,6 @@
 <section class="page-section mt-4">
     <div class="container">
-        <form id="create-project" class="m-3" method="post" enctype="multipart/form-data" action="/create-project">
+        <form id="create-project" class="m-3" method="post" enctype="multipart/form-data" action="/create-project/?_csrf={{csrf}}">
             <div class="form-group">
                 <label for="project-title">Project Title</label>
                 <input required minlength="2" type="text" class="form-control" id="project-title" name="title">

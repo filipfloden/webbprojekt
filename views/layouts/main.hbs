@@ -60,6 +60,7 @@
                             {{#if isLoggedIn}}
                                 <form class="form-inline my-lg-0" action="/logout" method="post">
                                     <button class="btn btn-primary my-2" type="submit">Logout</button>
+                                    <input type="hidden" name="_csrf" value="{{csrf}}">
                                 </form>
                             {{else}}
                                 <form class="form-inline my-lg-0" action="/login">
@@ -89,6 +90,7 @@
                             {{#if isLoggedIn}}
                                 <form class="form-inline my-lg-0" action="/logout" method="post">
                                     <button class="btn btn-primary my-2" type="submit">Logout</button>
+                                    <input type="hidden" name="_csrf" value="{{csrf}}">
                                 </form>
                             {{else}}
                                 <form class="form-inline my-lg-0" action="/login">
