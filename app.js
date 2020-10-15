@@ -126,8 +126,10 @@ app.post('/portfolioo', function(req, res){
     var values;
 
     if (req.body.btnID == "save") {
-        query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?") 
-        values = [title, description, id]
+        if (title.length >= 2 && description.length >= 10) {
+            query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?") 
+            values = [title, description, id]          
+        }
     }
     else if (req.body.btnID == "delete"){
         query = ("DELETE FROM portfolio WHERE id=?")
@@ -185,7 +187,9 @@ app.post('/create-project', function(req, res){
                 const description = req.body.description
                 const image = req.file.filename
 
-                if(title == null || description == null || image == null){res.redirect('/create-project')}
+                if(title.length < 2 || description.length < 10 || image == null){
+                    res.redirect('/create-project')
+                } 
                 else{
                     const query = ("INSERT INTO portfolio (title, description, image) VALUES (?, ?, ?)")
                     const values = [title, description, image]
@@ -261,19 +265,23 @@ app.post('/ask-question', function(req, res){
             console.log(error)
         }
         else{
-            const question = req.body.title    
+            const question = req.body.title   
+            if (question.length < 10) {
+                res.redirect('/ask-question')
+            } 
+            else{
+                const query = ("INSERT INTO question (question) VALUES (?)")
+                const values = [question]
 
-            const query = ("INSERT INTO question (question) VALUES (?)")
-            const values = [question]
-
-            db.run(query, values, function(error){
-                if (error) {
-                    console.log(error)
-                }
-                else{
-                    res.redirect('/faq')
-                }
-            })
+                db.run(query, values, function(error){
+                    if (error) {
+                        console.log(error)
+                    }
+                    else{
+                        res.redirect('/faq')
+                    }
+                })
+            }
         }
     })
 })
@@ -311,14 +319,16 @@ app.post('/answer-question', function(req, res){
         const query = ("UPDATE question SET answer = ? WHERE id = ?")
         const values = [answer, id]
     
-        db.run(query, values, function(error){
-            if (error) {
-                console.log(error)
-            }
-            else{
-                res.redirect('/faq')
-            }
-        })
+        if (answer >= 5) {
+            db.run(query, values, function(error){
+                if (error) {
+                    console.log(error)
+                }
+                else{
+                    res.redirect('/faq')
+                }
+            })
+        }
     }else if(!req.session.isLoggedIn){
         res.redirect('/')
     }
@@ -354,15 +364,17 @@ app.post('/edit-question', function(req, res){
         const id = req.body.id
         const query = ("UPDATE question SET answer = ? WHERE id = ?")
         const values = [answer, id]
-        
-        db.run(query, values, function(error){
-            if (error) {
-                console.log(error)
-            }
-            else{
-                res.redirect('/faq')
-            }
-        })
+
+        if (answer >= 5) {
+            db.run(query, values, function(error){
+                if (error) {
+                    console.log(error)
+                }
+                else{
+                    res.redirect('/faq')
+                }
+            })
+        }
     }else if(!req.session.isLoggedIn){
         res.redirect('/')
     }
@@ -403,8 +415,10 @@ app.post('/edit-project', function(req, res){
         var values
 
         if (req.body.btnID == "save") {
-            query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?")
-            values = [title, description, id]
+            if (title >= 2 || description >= 10) {
+                query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?")
+                values = [title, description, id]
+            }
         }
         else if (req.body.btnID == "delete"){
             query = ("DELETE FROM portfolio WHERE id=?")

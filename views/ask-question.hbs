@@ -3,7 +3,7 @@
         <form id="ask-question" class="m-3" method="post" action="/ask-question">
             <div class="form-group">
                 <label for="question">Question</label>
-                <input required type="text" class="form-control" id="question" name="title">
+                <input required minlength="10" type="text" class="form-control" id="question" name="title">
             </div>
             <a href="/faq"><button class="btn btn-secondary" type="button">Cancel</button></a>
             <button class="btn btn-primary" type="submit">Send Question</button>
