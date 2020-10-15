@@ -6,6 +6,7 @@ const path = require('path')
 //var upload = multer({ dest: 'static/img/' })
 const bodyParser = require('body-parser')
 const expressSession = require('express-session')
+const bcrypt = require('bcryptjs');
 
 const storage = multer.diskStorage({
     destination: './img/portfolio/',
@@ -84,7 +85,7 @@ app.engine('.hbs', expressHandelbars({
 }))
 
 const adminUser = "admin"
-const adminPass = "admin"
+const adminPass = "$2b$10$Vbz5tNWmTOxa7At7wtXd3uA/npj1oG2rce6L9Ekg4lzucIrDLNwta"
 
 app.use(express.static('img'))
 app.use(express.static('img/portfolio'))
@@ -435,7 +436,10 @@ app.post('/login', function(req, res){
     const inputUser = req.body.username
     const inputPass = req.body.password
 
-    if(adminUser == inputUser && adminPass == inputPass){
+    const saltRounds = 10;
+    const check = bcrypt.compareSync(inputPass, adminPass);
+
+    if(adminUser == inputUser && check){
         //login user
         req.session.isLoggedIn = true
         res.redirect("/")
