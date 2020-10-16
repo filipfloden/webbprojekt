@@ -127,8 +127,9 @@ app.get('/portfolioo/:id', csrfProtection, function(req, res){
 
     const query = ("SELECT * FROM portfolio")
     var focusedProject;
+    var projects = [];
 
-    db.all(query, function(error, projects) {
+    db.all(query, function(error, allProjects) {
         if (error) {
             console.log(error)
             const model = {
@@ -136,12 +137,15 @@ app.get('/portfolioo/:id', csrfProtection, function(req, res){
             }
         }
         else{
-            for (let i = 0; i < projects.length; i++) {
-                if (projects[i].id == req.params.id) {
-                    focusedProject = projects[i]
+            for (let i = 0; i < allProjects.length; i++) {
+                if (allProjects[i].id == req.params.id) {
+                    focusedProject = allProjects[i]
+                }
+                else{
+                    projects.push(allProjects[i])
                 }
             }
-            projects.reverse()
+            
             const model = {
                 dbError: false,
                 projects,
