@@ -161,7 +161,6 @@ app.post('/portfolioo/:id', csrfProtection, parseForm, function(req, res){
     const id = req.params.id
     var query;
     var values;
-    console.log(title, description)
 
     if (req.body.btnID == "save") {
         if (title.length >= 2 && description.length >= 10) {

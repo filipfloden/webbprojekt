@@ -1,49 +1,50 @@
 <section class="page-section">
     <div class="container text-white">
-    <div class="divider-custom">
-        <div class="divider-custom-line"></div>
-        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-        <div class="divider-custom-line"></div>
-    </div>
-
-    <div class="col-md-6 col-lg-12 mb-5">
-    <noscript><div class="no-js-portfolio"></noscript>
-    <div class="shadow project-item bg-primary text-center mx-auto">
-        <form action="/portfolioo/{{focusedProject.id}}" method="post">
-        {{#if isLoggedIn}}
-            <input type="text" id="project-title" class="form-control m-2" id="edit-title" name="title" value="{{focusedProject.title}}">
-        {{else}}
-            <h1>{{focusedProject.title}}</h1>
-        {{/if}}
-        <img class="project-img" src="../{{focusedProject.image}}" alt="{{focusedProject.image}}">
-        <div class="shadow bg-secondary p-2 m-3" id="project-window">
-        {{#if isLoggedIn}}
-                <textarea id="project-description" class="p-2 textarea-portfolio" name="description">{{focusedProject.description}}</textarea>
-                <button type="submit" name="btnID" id="save-btn" value="save" class="btn btn-primary edit-button">Save</button>
-                <button type="submit" name="btnID" value="delete" class="btn btn-danger">Delete</button>
-                <input type="hidden" name="_csrf" value="{{csrf}}">
-        {{else}}
-            <textarea disabled id="project-description" class="p-2 textarea-portfolio bg-secondary text-white">{{focusedProject.description}}</textarea>
-        {{/if}}
-        </form>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Portfolio</h2>
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
         </div>
-    </div>
-    <noscript></div></noscript>
-    </div>
 
-    <div class="row">
+        <div class="col-md-6 col-lg-12 mb-5">
+            <noscript><div class="no-js-portfolio"></noscript>
+            <div class="shadow project-item bg-primary text-center mx-auto">
+                <form action="/portfolioo/{{focusedProject.id}}" method="post">
+                    {{#if isLoggedIn}}
+                        <input type="text" id="project-title" class="form-control m-2" id="edit-title" name="title" value="{{focusedProject.title}}">
+                    {{else}}
+                        <h1>{{focusedProject.title}}</h1>
+                    {{/if}}
+                    <img class="project-img" src="../{{focusedProject.image}}" alt="{{focusedProject.image}}">
+                    <div class="shadow bg-secondary p-2 m-3" id="project-window">
+                    {{#if isLoggedIn}}
+                            <textarea id="project-description" class="p-2 textarea-portfolio" name="description">{{focusedProject.description}}</textarea>
+                            <button type="submit" name="btnID" id="save-btn" value="save" class="btn btn-primary edit-button">Save</button>
+                            <button type="submit" name="btnID" value="delete" class="btn btn-danger">Delete</button>
+                            <input type="hidden" name="_csrf" value="{{csrf}}">
+                    {{else}}
+                        <textarea disabled id="project-description" class="p-2 textarea-portfolio bg-secondary text-white">{{focusedProject.description}}</textarea>
+                    {{/if}}
+                </form>
+            </div>
+        </div>
+        <noscript></div></noscript>
+        </div>
+
+        <div class="row">
             {{#if projects.length}}
                 {{#each projects}}
                     <div class="col-md-6 col-lg-4 mb-5">
-                    <noscript><div class="no-js-portfolio"></noscript>
-                    <a href="/portfolioo/{{id}}">
-                        <div class="shadow portfolio-item bg-primary text-center mx-auto">
-                            <textarea id="no-js-desc" class="p-4">{{description}}</textarea>
-                            <img class="img-fluid portfolio-img" src="../{{image}}" alt="{{image}}">
-                            <h1>{{title}}</h1>
-                        </div>
-                    </a>
-                    <noscript></div></noscript>
+                        <noscript><div class="no-js-portfolio"></noscript>
+                        <a href="/portfolioo/{{id}}">
+                            <div class="shadow portfolio-item bg-primary text-center mx-auto">
+                                <textarea id="no-js-desc" class="p-4">{{description}}</textarea>
+                                <img class="img-fluid portfolio-img" src="../{{image}}" alt="{{image}}">
+                                <h1>{{title}}</h1>
+                            </div>
+                        </a>
+                        <noscript></div></noscript>
                     </div>
                 {{/each}}
             {{else}}
