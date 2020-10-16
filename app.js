@@ -9,6 +9,7 @@ const expressSession = require('express-session')
 const bcrypt = require('bcryptjs')
 const csrf = require('csurf')
 const { parse } = require('path')
+const { off } = require('process')
 
 const csrfProtection = csrf({ cookie: false})
 const parseForm = bodyParser.urlencoded ({extended: false})
@@ -122,19 +123,50 @@ app.get('/portfolioo', csrfProtection, function(req, res){
         }
     })
 })
+app.get('/portfolioo/:id', csrfProtection, function(req, res){
 
-app.post('/portfolioo', csrfProtection, parseForm, function(req, res){
+    const query = ("SELECT * FROM portfolio")
+    var focusedProject;
+
+    db.all(query, function(error, projects) {
+        if (error) {
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+        }
+        else{
+            for (let i = 0; i < projects.length; i++) {
+                if (projects[i].id == req.params.id) {
+                    focusedProject = projects[i]
+                    projects.pop()
+                }
+            }
+            projects.reverse()
+            const model = {
+                dbError: false,
+                projects,
+                focusedProject,
+                csrf: req.csrfToken()   
+            }
+            //console.log(model)
+            res.render('project.hbs', model)
+        }
+    })
+})
+
+app.post('/portfolioo/:id', csrfProtection, parseForm, function(req, res){
 
     const title = req.body.title    
     const description = req.body.description
-    const id = req.body.id
+    const id = req.params.id
     var query;
     var values;
 
     if (req.body.btnID == "save") {
         if (title.length >= 2 && description.length >= 10) {
             query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?") 
-            values = [title, description, id]          
+            values = [title, description, id]
         }
     }
     else if (req.body.btnID == "delete"){

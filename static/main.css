@@ -98,6 +98,22 @@
   min-height: 350px;
 }
 
+.project-img{
+  width: 100%;
+  max-height: 500px;
+  max-width: 500px;
+  min-height: 500px;
+}
+
+.project-item {
+  cursor: pointer;
+  position: relative;
+  display: block;
+  max-width: 31rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
 #btn-center{
   margin:0 auto;
   display: block;
@@ -107,12 +123,21 @@
   min-height: 12rem;
 }
 .textarea-portfolio{
-  min-height: 12rem;
+  min-height: 6rem;
 }
 
-#users-description{
-  background-color: white;
+#project-description{
+  width: 100%;
+  resize: none;
   border: none;
+  border-radius: 0.5rem;
+}
+#project-title{
+  width: 97%;
+}
+
+#project-window{
+  border-radius: 0.5rem;
 }
 
 #about-desc{
@@ -167,4 +192,9 @@
   #navbar-regular{
     display: none !important;
   }
+}
+
+a .portfolio-item{
+  color: white !important;
+  text-decoration: none;
 }

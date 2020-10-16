@@ -23,14 +23,15 @@
             {{#if projects.length}}
                 {{#each projects}}
                     <div class="col-md-6 col-lg-4 mb-5">
-                        <noscript><div class="no-js-portfolio"></noscript>
-                        <div class="shadow portfolio-item bg-primary text-center mx-auto" data-toggle="modal"
-                            data-target="#projectModal{{id}}">
+                    <noscript><div class="no-js-portfolio"></noscript>
+                    <a href="/portfolioo/{{id}}">
+                        <div class="shadow portfolio-item bg-primary text-center mx-auto">
                             <textarea id="no-js-desc" class="p-4">{{description}}</textarea>
                             <img class="img-fluid portfolio-img" src="{{image}}" alt="{{image}}">
                             <h1>{{title}}</h1>
                         </div>
-                        <noscript></div></noscript>
+                    </a>
+                    <noscript></div></noscript>
                     </div>
                 {{/each}}
             {{else}}
@@ -40,6 +41,7 @@
     </div>
 
     <!-- Modal -->
+    <!--
     {{#if isLoggedIn}}
         {{#each projects}}
             <div class="modal fade" id="projectModal{{id}}" tabindex="-1" aria-labelledby="projectModalLabel"
@@ -100,4 +102,5 @@
             </div>
         {{/each}}
     {{/if}}
+    -->
 </section>
