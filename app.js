@@ -139,7 +139,6 @@ app.get('/portfolioo/:id', csrfProtection, function(req, res){
             for (let i = 0; i < projects.length; i++) {
                 if (projects[i].id == req.params.id) {
                     focusedProject = projects[i]
-                    projects.pop()
                 }
             }
             projects.reverse()
