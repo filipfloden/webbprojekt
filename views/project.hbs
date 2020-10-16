@@ -9,6 +9,7 @@
     <div class="col-md-6 col-lg-12 mb-5">
     <noscript><div class="no-js-portfolio"></noscript>
     <div class="shadow project-item bg-primary text-center mx-auto">
+        <form action="/portfolioo/{{focusedProject.id}}" method="post">
         {{#if isLoggedIn}}
             <input type="text" id="project-title" class="form-control m-2" id="edit-title" name="title" value="{{focusedProject.title}}">
         {{else}}
@@ -17,15 +18,14 @@
         <img class="project-img" src="../{{focusedProject.image}}" alt="{{focusedProject.image}}">
         <div class="shadow bg-secondary p-2 m-3" id="project-window">
         {{#if isLoggedIn}}
-            <form action="/portfolioo/{{focusedProject.id}}" method="post">
                 <textarea id="project-description" class="p-2 textarea-portfolio" name="description">{{focusedProject.description}}</textarea>
                 <button type="submit" name="btnID" id="save-btn" value="save" class="btn btn-primary edit-button">Save</button>
                 <button type="submit" name="btnID" value="delete" class="btn btn-danger">Delete</button>
                 <input type="hidden" name="_csrf" value="{{csrf}}">
-            </form>
         {{else}}
             <textarea disabled id="project-description" class="p-2 textarea-portfolio bg-secondary text-white">{{focusedProject.description}}</textarea>
         {{/if}}
+        </form>
         </div>
     </div>
     <noscript></div></noscript>
