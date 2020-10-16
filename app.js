@@ -145,7 +145,7 @@ app.get('/portfolioo/:id', csrfProtection, function(req, res){
                     projects.push(allProjects[i])
                 }
             }
-            
+            projects.reverse()
             const model = {
                 dbError: false,
                 projects,
