@@ -183,7 +183,7 @@
 }
 
 @media screen and (max-width: 992px) {
-  .dropdown-test:hover > #navbarResponsive{
+  .dropdown-fixed-menu:hover > #navbarResponsive{
     display:block;
   }
   #navbarResponsive{
@@ -223,4 +223,9 @@ a .portfolio-item{
 .icon-size{
   width: 16px !important;
   height: 16px !important;
+}
+
+.contact-distance{
+  margin-top: -1rem;
+  margin-left: 0;
 }

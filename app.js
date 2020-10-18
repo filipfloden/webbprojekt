@@ -66,7 +66,10 @@ db.run(`
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
         email TEXT,
-        message TEXT
+        phone INTEGER,
+        message TEXT,
+        answer TEXT,
+        status TEXT
     )
 `)
 
@@ -247,7 +250,85 @@ app.get('/about', csrfProtection, function(req, res){
 })
 
 app.get('/contact', csrfProtection, function(req, res){
-    res.render('contact.hbs', { csrf: req.csrfToken()})
+    const query = ("SELECT * FROM contact")
+
+    db.all(query, function(error, contact) {
+        if (error) {
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+        }
+        else{
+            contact.reverse()
+            const model = {
+                dbError: false,
+                contact,
+                csrf: req.csrfToken()
+            }
+            res.render('contact.hbs', model)
+        }
+    })
+})
+
+app.post('/contact', csrfProtection, parseForm, function(req, res){
+    const name = req.body.name
+    const email = req.body.email
+    const phone = req.body.phone
+    const message = req.body.message
+    const status = "new"
+
+    const query = ("INSERT INTO contact (name, email, phone, message, status) VALUES (?, ?, ?, ?, ?)")
+    const values = [name, email, phone, message, status]
+
+    db.run(query, values, function(error){
+        if (error) {
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+        }
+        else{
+            const model = {
+                dbError: false,
+            }
+            res.redirect('/contact')
+        }
+    })
+})
+
+app.post('/answer-message', csrfProtection, parseForm, function(req, res){
+
+    if (req.session.isLoggedIn) {
+        const status = "answered"
+        const answer = req.body.answer
+        const id = req.body.id
+        
+        var query;
+        var values;
+        
+        if (req.body.btnID == "submit") {
+            if (answer.length >= 5) {
+                query = ("UPDATE contact SET status = ?, answer = ? WHERE id = ?")
+                values = [status, answer, id]
+            }
+        }
+        else if (req.body.btnID == "delete"){
+            query = ("DELETE FROM contact WHERE id=?")
+            values = [id]
+        }
+    
+            db.run(query, values, function(error){
+                if (error) {
+                    console.log(error)
+                }
+                else{
+                    res.redirect('/contact')
+                }
+            })
+        } else if(!req.session.isLoggedIn){
+        res.redirect('/')
+    }
 })
 
 app.get('/faq', csrfProtection, function(req, res){
@@ -421,79 +502,16 @@ app.post('/edit-question', csrfProtection, parseForm, function(req, res){
     }
 })
 
-app.get('/edit-project', csrfProtection, function(req, res){
-    if (req.session.isLoggedIn) {
-        const query = ("SELECT * FROM portfolio")
-
-        db.all(query, function(error, project) {
-            if (error) {
-                console.log(error)
-                const model = {
-                    dbError: true
-                }
-            }
-            else{
-                const model = {
-                    dbError: false,
-                    project,
-                    csrf: req.csrfToken()
-                }
-                res.render('edit-project.hbs', model)
-            }
-        })
-    }
-    else if(!req.session.isLoggedIn) {
-        res.redirect('/portfolioo')
-    }
-})
-
-app.post('/edit-project', csrfProtection, parseForm, function(req, res){
-    if (req.session.isLoggedIn) {
-        const title = req.body.title
-        const description = req.body.description
-        const id = req.body.id
-
-        var query
-        var values
-
-        if (req.body.btnID == "save") {
-            if (title.length >= 2 || description.length >= 10) {
-                query = ("UPDATE portfolio SET title = ?, description = ? WHERE id = ?")
-                values = [title, description, id]
-            }
-        }
-        else if (req.body.btnID == "delete"){
-            query = ("DELETE FROM portfolio WHERE id=?")
-            values = [id]
-        }
-        
-        if (query != null) {
-            db.run(query, values, function(error){
-                if (error) {
-                    console.log(error)
-                }
-                else{
-                    res.redirect('/portfolioo')
-                }
-            })
-        }
-    }
-    else if (!req.session.isLoggedIn) {
-        res.redirect('/')
-    }
-})
-
-app.get('/login', csrfProtection, function(req, res){
+app.get('/admin', csrfProtection, function(req, res){
     res.render('login.hbs', { csrf: req.csrfToken()})
 })
 
-app.post('/login', csrfProtection, parseForm, function(req, res){
+app.post('/admin', csrfProtection, parseForm, function(req, res){
     var failed = false
     const inputUser = req.body.username
     const inputPass = req.body.password
 
-    const saltRounds = 10;
-    const check = bcrypt.compareSync(inputPass, adminPass);
+    const check = bcrypt.compareSync(inputPass, adminPass)
 
     if(adminUser == inputUser && check){
         //login user

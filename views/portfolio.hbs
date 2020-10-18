@@ -7,11 +7,6 @@
             <form action="/create-project">
                 <button id="btn-center" type="submit" class="btn btn-primary mt-3">Add project +</button>
             </form>
-            <noscript>
-                <form action="/edit-project">
-                    <button id="btn-center" type="submit" class="btn btn-secondary mt-3">Edit projects</button>
-                </form>
-            </noscript>
         {{/if}}
         <!-- Icon Divider-->
         <div class="divider-custom">
@@ -22,8 +17,7 @@
         <div class="row">
             {{#if projects.length}}
                 {{#each projects}}
-                    <div class="col-md-6 col-lg-4 mb-5">
-                    <noscript><div class="no-js-portfolio"></noscript>
+                <div class="col-md-6 col-lg-4 mb-5">
                     <a href="/portfolioo/{{id}}">
                         <div class="shadow portfolio-item bg-primary text-center mx-auto">
                             <textarea id="no-js-desc" class="p-4">{{description}}</textarea>
@@ -31,76 +25,11 @@
                             <h1>{{title}}</h1>
                         </div>
                     </a>
-                    <noscript></div></noscript>
-                    </div>
+                </div>
                 {{/each}}
             {{else}}
                 <p>No projects</p>
             {{/if}}
         </div>
     </div>
-
-    <!-- Modal -->
-    <!--
-    {{#if isLoggedIn}}
-        {{#each projects}}
-            <div class="modal fade" id="projectModal{{id}}" tabindex="-1" aria-labelledby="projectModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="projectModalLabel">{{title}}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form id="edit{{id}}" action="/portfolioo" method="post" class="m-3">
-                            <input type="hidden" name="id" value="{{id}}">
-                            <div class="form-group">
-                                <label for="edit-title">Title</label>
-                                <input type="text" class="form-control" id="edit-title" name="title" value="{{title}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="edit-description">Description</label>
-                                <textarea type="text" class="form-control textarea-portfolio" id="edit-description"
-                                    name="description" style="resize: none;">{{description}}</textarea>
-                            </div>
-                            <input type="hidden" name="_csrf" value="{{../csrf}}">
-                        </form>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button id="save-btn" name="btnID" value="save" type="submit" class="btn btn-primary edit-button"
-                                form="edit{{id}}">Save</button>
-                            <button type="submit" name="btnID" value="delete" class="btn btn-danger"
-                                form="edit{{id}}">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {{/each}}
-    {{else}}
-        {{#each projects}}
-            <div class="modal fade" id="projectModal{{id}}" tabindex="-1" aria-labelledby="projectModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="projectModalLabel">{{title}}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <textarea disabled id="users-description" type="text" class="form-control textarea-portfolio"
-                                style="resize: none;">{{description}}</textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {{/each}}
-    {{/if}}
-    -->
 </section>
