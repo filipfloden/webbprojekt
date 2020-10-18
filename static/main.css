@@ -198,3 +198,29 @@ a .portfolio-item{
   color: white !important;
   text-decoration: none;
 }
+
+.contact-form{
+  width: 70% !important;
+  margin:0 auto;
+  display: block;
+}
+
+.contact-item{
+  display: block !important;
+  width: 100% !important;
+}
+
+.contact-input{
+  border: none;
+  border-bottom: solid 1px gray !important;
+  width: 97%;
+}
+
+.contact-input:focus{
+  outline-width: 0;
+}
+
+.icon-size{
+  width: 16px !important;
+  height: 16px !important;
+}

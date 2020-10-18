@@ -61,7 +61,14 @@ db.run(`
         answer TEXT
     )
 `)
-
+db.run(`
+    CREATE TABLE IF NOT EXISTS contact(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        email TEXT,
+        message TEXT
+    )
+`)
 
 const app = express()
 
